@@ -1,7 +1,6 @@
 const db = require('../models');
 const path = require('path');
 const fs = require('fs');
-// Obtener la lista de Pokémon con sus tipos y habilidades
 exports.listPokemon = async (req, res) => {
     try {
         const pokemon = await db.pokemon.findAll({
@@ -9,28 +8,28 @@ exports.listPokemon = async (req, res) => {
             include: [
                 {
                     model: db.tipo,
-                    as: 'tipo1', // Primer tipo
-                    attributes: ['nombre'] // Traer solo el nombre del tipo
+                    as: 'tipo1', 
+                    attributes: ['nombre'] 
                 },
                 {
                     model: db.tipo,
-                    as: 'tipo2', // Segundo tipo (si tiene)
+                    as: 'tipo2', 
                     attributes: ['nombre']
                 },
                 {
                     model: db.habilidad,
-                    as: 'habilidad1', // Primera habilidad
-                    attributes: ['nombre', 'descripcion'] // Incluir nombre y descripción
+                    as: 'habilidad1', 
+                    attributes: ['nombre', 'descripcion']
                 },
                 {
                     model: db.habilidad,
-                    as: 'habilidad2', // Segunda habilidad (si tiene)
-                    attributes: ['nombre', 'descripcion'] // Incluir nombre y descripción
+                    as: 'habilidad2', 
+                    attributes: ['nombre', 'descripcion'] 
                 },
                 {
                     model: db.habilidad,
-                    as: 'habilidadOculta', // Habilidad oculta (si tiene)
-                    attributes: ['nombre', 'descripcion'] // Incluir nombre y descripción
+                    as: 'habilidadOculta', 
+                    attributes: ['nombre', 'descripcion'] 
                 }
             ]
         });
@@ -40,7 +39,7 @@ exports.listPokemon = async (req, res) => {
     }
 };
 
-// Obtener un Pokémon específico por ID con sus tipos y habilidades
+
 exports.getPokemonById = async (req, res) => {
     const id = req.params.id;
     try {
@@ -48,28 +47,28 @@ exports.getPokemonById = async (req, res) => {
             include: [
                 {
                     model: db.tipo,
-                    as: 'tipo1', // Primer tipo
+                    as: 'tipo1', 
                     attributes: ['nombre']
                 },
                 {
                     model: db.tipo,
-                    as: 'tipo2', // Segundo tipo (si tiene)
+                    as: 'tipo2', 
                     attributes: ['nombre']
                 },
                 {
                     model: db.habilidad,
-                    as: 'habilidad1', // Primera habilidad
-                    attributes: ['nombre', 'descripcion'] // Incluir nombre y descripción
+                    as: 'habilidad1', 
+                    attributes: ['nombre', 'descripcion']
                 },
                 {
                     model: db.habilidad,
-                    as: 'habilidad2', // Segunda habilidad (si tiene)
-                    attributes: ['nombre', 'descripcion'] // Incluir nombre y descripción
+                    as: 'habilidad2', 
+                    attributes: ['nombre', 'descripcion'] 
                 },
                 {
                     model: db.habilidad,
-                    as: 'habilidadOculta', // Habilidad oculta (si tiene)
-                    attributes: ['nombre', 'descripcion'] // Incluir nombre y descripción
+                    as: 'habilidadOculta', 
+                    attributes: ['nombre', 'descripcion'] 
                 }
             ]
         });
