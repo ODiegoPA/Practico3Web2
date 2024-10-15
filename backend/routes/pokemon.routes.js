@@ -9,5 +9,7 @@ module.exports = app => {
     router.delete("/:id", controller.deletePokemon);
     router.get("/:id/imagen", controller.getImagenPokemon);
     router.get("/:id/miniImagen", controller.getMiniImagenPokemon);
+    router.get("/tipo1/:tipo1/tipo2/:tipo2?/nombre/:nombre?/nro/:nro?", controller.getListByFilters);
+    router.get("/linea/:id", controller.getLineaEvolutiva);
     app.use('/pokemon', router);
 }

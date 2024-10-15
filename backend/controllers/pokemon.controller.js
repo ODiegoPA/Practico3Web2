@@ -1,6 +1,9 @@
 const db = require('../models');
 const path = require('path');
 const fs = require('fs');
+const Sequelize = require("sequelize"); // Agrega esta línea
+const { get } = require('http');
+const Op = Sequelize.Op; 
 exports.listPokemon = async (req, res) => {
     try {
         const pokemon = await db.pokemon.findAll({
@@ -30,6 +33,16 @@ exports.listPokemon = async (req, res) => {
                     model: db.habilidad,
                     as: 'habilidadOculta', 
                     attributes: ['nombre', 'descripcion'] 
+                },
+                {
+                    model: db.pokemon, 
+                    as: 'evolucionPrevia',
+                    attributes: ['id', 'nombre'] 
+                },
+                {
+                    model: db.pokemon, 
+                    as: 'evolucionSiguiente',
+                    attributes: ['id', 'nombre']
                 }
             ]
         });
@@ -69,6 +82,16 @@ exports.getPokemonById = async (req, res) => {
                     model: db.habilidad,
                     as: 'habilidadOculta', 
                     attributes: ['nombre', 'descripcion'] 
+                },
+                {
+                    model: db.pokemon, 
+                    as: 'evolucionPrevia',
+                    attributes: ['id', 'nombre'] 
+                },
+                {
+                    model: db.pokemon, 
+                    as: 'evolucionSiguiente',
+                    attributes: ['id', 'nombre'] 
                 }
             ]
         });
@@ -177,6 +200,119 @@ exports.updatePokemon = async (req, res) => {
         res.status(500).json({ error: error.message})
     }
 }
+
+exports.getListByFilters= async (req, res) => {
+    const tipo1 = req.params.tipo1;
+    const tipo2 = req.params.tipo2;
+    const nombre = req.params.nombre; 
+    const numeroPokedex = req.params.nro; 
+
+    console.log(tipo1, tipo2, nombre, numeroPokedex);
+
+    const whereCondition = {};
+
+    if (tipo1 && tipo1 !== 'null') {
+        whereCondition.idTipo1 = tipo1;
+    }
+
+    if (tipo2 && tipo2 !== 'null') {
+        whereCondition.idTipo2 = tipo2;
+    }
+
+    
+    if (nombre !== 'null') {
+        whereCondition.nombre = {
+            [Sequelize.Op.like]: `${nombre}%` 
+        };
+    }
+
+    if (numeroPokedex !== 'null') {
+        whereCondition.nroPokedex = numeroPokedex;
+    }
+
+    console.log(whereCondition);
+    try {
+        const pokemon = await db.pokemon.findAll({
+            where: whereCondition,
+            order: [['nroPokedex', 'ASC']],
+            include: [
+                {
+                    model: db.tipo,
+                    as: 'tipo1',
+                    attributes: ['nombre']
+                },
+                {
+                    model: db.tipo,
+                    as: 'tipo2',
+                    attributes: ['nombre']
+                },
+                {
+                    model: db.habilidad,
+                    as: 'habilidad1',
+                    attributes: ['nombre', 'descripcion']
+                },
+                {
+                    model: db.habilidad,
+                    as: 'habilidad2',
+                    attributes: ['nombre', 'descripcion']
+                },
+                {
+                    model: db.habilidad,
+                    as: 'habilidadOculta',
+                    attributes: ['nombre', 'descripcion']
+                },
+                {
+                    model: db.pokemon,
+                    as: 'evolucionPrevia',
+                    attributes: ['id', 'nombre']
+                },
+                {
+                    model: db.pokemon,
+                    as: 'evolucionSiguiente',
+                    attributes: ['id', 'nombre']
+                }
+            ]
+        });
+
+        res.status(200).json(pokemon);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.getLineaEvolutiva = async (req, res) => {
+    const id = req.params.id; 
+    try {
+        
+        const pokemon = await getPokemonOr404(id, res);
+        if (!pokemon) {
+            return; 
+        }
+
+        const respuesta = [];
+        respuesta.push(pokemon); 
+
+        let actual = pokemon; 
+
+        while (actual.idEvSiguiente != null) {
+            actual = await db.pokemon.findByPk(actual.idEvSiguiente);
+            respuesta.push(actual); 
+        }
+
+        actual = pokemon; 
+
+        while (actual.idEvPrevia != null) {
+            actual = await db.pokemon.findByPk(actual.idEvPrevia);
+            respuesta.unshift(actual); 
+        }
+
+        
+        return res.status(200).json(respuesta);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 
 exports.deletePokemon = async (req, res) => {
     const id = req.params.id;

@@ -72,5 +72,23 @@ db.pokemon.belongsTo(db.habilidad, {
     as: "habilidadOculta",
 });
 
-// Exportar el objeto db
+db.pokemon.belongsTo(db.pokemon, {
+    foreignKey: "idEvPrevia", // Usar idEvPrevia como clave foránea
+    as: "evolucionPrevia",
+});
+db.pokemon.hasMany(db.pokemon, {
+    foreignKey: "idEvPrevia",
+    as: "pokemonEvolucionPrevia",
+});
+
+db.pokemon.belongsTo(db.pokemon, {
+    foreignKey: "idEvSiguiente", // Usar idEvSiguiente como clave foránea
+    as: "evolucionSiguiente",
+});
+db.pokemon.hasMany(db.pokemon, {
+    foreignKey: "idEvSiguiente",
+    as: "pokemonEvolucionSiguiente",
+});
+
+
 module.exports = db;
