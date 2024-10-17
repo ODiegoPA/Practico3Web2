@@ -10,6 +10,8 @@ import ListTipos from './pages/tipos/listTipos.jsx'
 import FormTipos from './pages/tipos/formTipos.jsx'
 import ListHabilidades from './pages/habilidades/listhabilidades.jsx'
 import FormHabilidades from './pages/habilidades/formHabilidades.jsx'
+import FormImagenes from './pages/pokemon/formPhoto.jsx'
+import MainPokedex from './pages/main/mainPokedex.jsx'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -50,6 +52,14 @@ const router = createBrowserRouter([
   {
     path: '/habilidades/formulario/:id',
     element: <FormHabilidades />,
+  },
+  {
+    path: '/pokemon/subirFoto/:id',
+    element: <FormImagenes />,
+  },
+  {
+    path: '/pokedex',
+    element: <MainPokedex />,
   }
 ])
 createRoot(document.getElementById('root')).render(

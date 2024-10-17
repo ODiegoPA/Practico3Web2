@@ -7,6 +7,7 @@ module.exports = app => {
     router.post("/", controller.createPokemon);
     router.put("/:id", controller.updatePokemon);
     router.delete("/:id", controller.deletePokemon);
+    router.post("/:id/imagen", controller.subirFoto)
     router.get("/:id/imagen", controller.getImagenPokemon);
     router.get("/:id/miniImagen", controller.getMiniImagenPokemon);
     router.get("/tipo1/:tipo1/tipo2/:tipo2?/nombre/:nombre?/nro/:nro?", controller.getListByFilters);

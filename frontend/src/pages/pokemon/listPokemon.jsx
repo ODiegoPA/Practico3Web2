@@ -113,6 +113,7 @@ const ListPokemon = () => {
                                                 </td>
                                                 <td>
                                                     <Link to={`/pokemon/formulario/${pokemon.id}`} className="btn btn-warning">Editar</Link>
+                                                    <Link to ={`/pokemon/subirFoto/${pokemon.id}`} className="btn btn-info">Foto</Link>
                                                 </td>
                                                 <td>
                                                     <Button variant="danger" onClick={() => eliminarPokemon(pokemon.id)}>Eliminar</Button>

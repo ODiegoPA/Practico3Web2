@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, Card, Container, Form } from "react-bootstrap";
+import { Button, Card, Container, Form} from "react-bootstrap";
+import NavAdminMenu from '../../components/AdminMenu';
 
 const FormPokemon = () => {
     const navigate = useNavigate();
@@ -26,16 +27,7 @@ const FormPokemon = () => {
     const [listaTipos, setListaTipos] = useState([]);
     const [listaHabilidades, setListaHabilidades] = useState([]);
     const [listaPokemones, setListaPokemones] = useState([]);
-    const [imagen, setImagen] = useState(null);
-    const [imagenMini, setImagenMini] = useState("");
 
-    const onChangePhoto = (e) => {
-        const files = e.target.files;
-        if (files.length > 0) {
-            setImagen(files[0]);  // Primera imagen es la principal
-            setImagenMini(files[1] || null);  // Segunda imagen es mini, si está presente
-    }
-    };
 
     useEffect(() => {
         if (id) {
@@ -118,37 +110,6 @@ const FormPokemon = () => {
         formData.append("idHabilidadOculta", idHabilidadOculta);
         formData.append("idEvPrevia", idEvPrevia || null);
         formData.append("idEvSiguiente", idEvSiguiente || null);
-        const data = {
-            nombre,
-            nroPokedex,
-            descripcion,
-            hp,
-            ataque,
-            defensa,
-            ataqueEspecial,
-            defensaEspecial,
-            velocidad,
-            nivelEvolucion,
-            idTipo1,
-            idTipo2,
-            idHabilidad1,
-            idHabilidad2,
-            idHabilidadOculta,
-            idEvPrevia,
-            idEvSiguiente,
-        }
-        console.log(data);
-        for (const [key, value] of formData.entries()) {
-            console.log(key, value, 'Tipo de dato:', typeof value);
-        }
-
-        if (imagen) {
-            formData.append("photo", imagen);
-        }
-        if (imagenMini) {
-            formData.append("miniPhoto", imagenMini);
-        }
-
 
         const dataToSend = {};
         for (const [key, value] of formData.entries()) {
@@ -161,10 +122,6 @@ const FormPokemon = () => {
         dataToSend[key] = value; // Mantener como string si no es un número
     }
 }
-
-console.log(dataToSend); // Verificar los datos que se enviarán
-
-// Aquí puedes enviar dataToSend a tu servidor
 
         if (id) {
             axios.put(`http://localhost:3000/pokemon/${id}`, dataToSend)
@@ -180,11 +137,13 @@ console.log(dataToSend); // Verificar los datos que se enviarán
             }).catch((error) => {
                 console.error(error);
             });
-        } //separar logica de fotos
+        } 
     }
 
     return (
-        <Container>
+        <>
+            <NavAdminMenu/>
+            <Container>
             <Card>
                 <Card.Header>
                     <h3>{id ? "Editar Pokémon" : "Crear Pokémon"}</h3>
@@ -379,24 +338,12 @@ console.log(dataToSend); // Verificar los datos que se enviarán
                                 ))}
                             </Form.Control>
                         </Form.Group>
-
-                        <Form.Group>
-    <Form.Label>Imagen y Miniatura</Form.Label>
-    <Form.Control 
-        type="file" 
-        multiple 
-        onChange={onChangePhoto}
-    />
-    <Form.Text className="text-muted">
-        Selecciona la imagen principal y la miniatura (en ese orden).
-    </Form.Text>
-</Form.Group>
-
                         <Button variant="primary" type="submit">Guardar</Button>
                     </Form>
                 </Card.Body>
             </Card>
         </Container>
+        </>
     );
 };
 
