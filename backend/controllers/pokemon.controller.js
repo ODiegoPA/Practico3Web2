@@ -109,7 +109,8 @@ exports.getPokemonById = async (req, res) => {
 exports.createPokemon = async (req, res) => {
     const image = req.files.photo;
     const miniImage = req.files.miniPhoto;
-    try{
+    
+    try {
         const pokemon = {
             nombre: req.body.nombre,
             nroPokedex: req.body.nroPokedex,
@@ -120,45 +121,53 @@ exports.createPokemon = async (req, res) => {
             velocidad: req.body.velocidad,
             ataqueEspecial: req.body.ataqueEspecial,
             defensaEspecial: req.body.defensaEspecial,
-            nivelEvolucion: req.body.nivelEvolucion,
-            idHabilidad1: req.body.idHabilidad1,
-            idHabilidad2: req.body.idHabilidad2,
+            nivelEvolucion: req.body.nivelEvolucion !== '' ? req.body.nivelEvolucion : null, // Manejar null
+            idHabilidad1: req.body.idHabilidad1 !== '' ? req.body.idHabilidad1 : null, // Manejar null
+            idHabilidad2: req.body.idHabilidad2 !== '' ? req.body.idHabilidad2 : null, // Manejar null
             idHabilidadOculta: req.body.idHabilidadOculta,
             idTipo1: req.body.idTipo1,
-            idTipo2: req.body.idTipo2,
-            idEvPrevia: req.body.idEvPrevia,
-            idEvSiguiente: req.body.idEvSiguiente
-        }
+            idTipo2: req.body.idTipo2 !== '' ? req.body.idTipo2 : null, // Manejar null
+            idEvPrevia: req.body.idEvPrevia !== '' ? req.body.idEvPrevia : null, // Manejar null
+            idEvSiguiente: req.body.idEvSiguiente !== '' ? req.body.idEvSiguiente : null // Manejar null
+        };
+
         const pokemonCreado = await db.pokemon.create(pokemon);
+        
+        // Manejo de la subida de imágenes
         const path = __dirname + '/../public/images/pokemon/' + pokemonCreado.id + '.jpg';	
-        image.mv(path, function (err){
+        image.mv(path, function (err) {
             if (err) {
                 console.log('error al subir')
                 return res.status(500).json({ error: 'Error al subir la imagen' });
             }
         });
+        
         const pathMini = __dirname + '/../public/images/pokemon/minis/' + pokemonCreado.id + '.jpg';
-        miniImage.mv(pathMini, function (err){
+        miniImage.mv(pathMini, function (err) {
             if (err) {
                 console.log('error al subir')
                 return res.status(500).json({ error: 'Error al subir la imagen' });
             }
         });
+        
         res.status(201).json(pokemonCreado);
     } catch (error) {
-        res.status(500).json({ error: error.message})
+        res.status(500).json({ error: error.message })
     }
 }
 
 exports.updatePokemon = async (req, res) => {
     const id = req.params.id;
-    const image = req.files.photo;
-    const miniImage = req.files.miniPhoto;
-    try{
+    const image = req.files ? req.files.photo : null;
+    const miniImage = req.files ? req.files.miniPhoto : null;
+
+    try {
         const pokemon = await getPokemonOr404(id, res);
-        if (!pokemon){
+        if (!pokemon) {
             return;
         }
+        
+        // Actualización de campos
         pokemon.nombre = req.body.nombre;
         pokemon.nroPokedex = req.body.nroPokedex;
         pokemon.descripcion = req.body.descripcion;
@@ -168,38 +177,43 @@ exports.updatePokemon = async (req, res) => {
         pokemon.velocidad = req.body.velocidad;
         pokemon.ataqueEspecial = req.body.ataqueEspecial;
         pokemon.defensaEspecial = req.body.defensaEspecial;
-        pokemon.nivelEvolucion = req.body.nivelEvolucion;
-        pokemon.idHabilidad1 = req.body.idHabilidad1;
-        pokemon.idHabilidad2 = req.body.idHabilidad2;
+        pokemon.nivelEvolucion = req.body.nivelEvolucion !== '' ? req.body.nivelEvolucion : null; // Manejar null
+        pokemon.idHabilidad1 = req.body.idHabilidad1 !== '' ? req.body.idHabilidad1 : null; // Manejar null
+        pokemon.idHabilidad2 = req.body.idHabilidad2 !== '' ? req.body.idHabilidad2 : null; // Manejar null
         pokemon.idHabilidadOculta = req.body.idHabilidadOculta;
         pokemon.idTipo1 = req.body.idTipo1;
-        pokemon.idTipo2 = req.body.idTipo2;
-        pokemon.idEvPrevia = req.body.idEvPrevia;
-        pokemon.idEvSiguiente = req.body.idEvSiguiente;
-        if(image){
+        pokemon.idTipo2 = req.body.idTipo2 !== '' ? req.body.idTipo2 : null; // Manejar null
+        pokemon.idEvPrevia = req.body.idEvPrevia !== '' ? req.body.idEvPrevia : null; // Manejar null
+        pokemon.idEvSiguiente = req.body.idEvSiguiente !== '' ? req.body.idEvSiguiente : null; // Manejar null
+
+        // Manejo de la subida de imágenes
+        if (image) {
             const path = __dirname + '/../public/images/pokemon/' + pokemon.id + '.jpg';	
-            image.mv(path, function (err){
+            image.mv(path, function (err) {
                 if (err) {
                     console.log('error al subir')
                     return res.status(500).json({ error: 'Error al subir la imagen' });
                 }
             });
         }
-        if(miniImage){
+        
+        if (miniImage) {
             const pathMini = __dirname + '/../public/images/pokemon/minis/' + pokemon.id + '.jpg';
-            miniImage.mv(pathMini, function (err){
+            miniImage.mv(pathMini, function (err) {
                 if (err) {
                     console.log('error al subir')
                     return res.status(500).json({ error: 'Error al subir la imagen' });
                 }
             });
         }
+        
         await pokemon.save();
         res.status(200).json(pokemon);
     } catch (error) {
-        res.status(500).json({ error: error.message})
+        res.status(500).json({ error: error.message })
     }
 }
+
 
 exports.getListByFilters= async (req, res) => {
     const tipo1 = req.params.tipo1;
@@ -290,7 +304,7 @@ exports.getLineaEvolutiva = async (req, res) => {
         }
 
         const respuesta = [];
-        respuesta.push(pokemon); 
+        respuesta.push(pokemon);
 
         let actual = pokemon; 
 

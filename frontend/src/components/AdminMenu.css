@@ -1,0 +1,46 @@
+/* Fondo del navbar */
+.navbar {
+    background-color: #000000 !important; /* Fondo negro */
+  }
+  
+  /* Estilos para los enlaces de navegación (NavLinks y DropdownItems) */
+  .nav-link, .dropdown-item {
+    color: #ff0000 !important; /* Letras rojas */
+  }
+  
+  /* Cambiar el color del enlace cuando el cursor está encima */
+  .nav-link:hover, .dropdown-item:hover {
+    color: #ff6666 !important; /* Letras rojas más claras al pasar el mouse */
+  }
+  
+  /* Color del icono de colapsar (hamburguesa) cuando el navbar está colapsado en dispositivos móviles */
+  .navbar-toggler-icon {
+    background-color: #ff0000 !important; /* Icono de hamburguesa rojo */
+  }
+  
+  /* Estilos adicionales opcionales para la marca */
+  .navbar-brand {
+    color: #ff0000 !important; /* Nombre de la marca en rojo */
+    display: flex;
+    align-items: center; /* Alinear el texto y la imagen verticalmente */
+  }
+  
+  /* Estilo para la imagen del logo */
+  .pokedex-logo {
+    width: 40px; /* Ajusta el tamaño según sea necesario */
+    height: 40px; /* Ajusta el tamaño según sea necesario */
+    margin-right: 10px; /* Espacio entre la imagen y el texto */
+  }
+  
+  /* Fondo negro para el dropdown menu */
+  .dropdown-menu {
+    background-color: #000000 !important; /* Fondo negro del dropdown */
+    border: none; /* Sin bordes */
+  }
+  
+  /* Color negro para el encabezado del dropdown */
+  .dropdown-header {
+    background-color: #000000 !important; /* Fondo negro para el header */
+    color: #ff0000 !important; /* Letras rojas para el header */
+  }
+  
