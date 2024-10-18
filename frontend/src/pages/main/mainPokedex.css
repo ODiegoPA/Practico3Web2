@@ -1,0 +1,18 @@
+.pokedex-container {
+    background-color: #FF6F61;
+    padding: 20px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.pokemon-row {
+    background-color: #F44C43;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.pokemon-number, 
+.pokemon-name {
+    font-weight: bold;
+    font-size: 1.2rem; /* Aumenta el tamaño del texto */
+}

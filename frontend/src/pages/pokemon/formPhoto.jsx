@@ -61,11 +61,11 @@ const FormImagenes = () => {
                                 <Form onSubmit={guardarFoto}>
                                     <Form.Group controlId="formFileImagen" className="mb-3">
                                         <Form.Label>Imagen</Form.Label>
-                                        <Form.Control required type="file" onChange={onChangeImagen} />
+                                        <Form.Control type="file" onChange={onChangeImagen} />
                                     </Form.Group>
                                     <Form.Group controlId="formFileMiniImagen" className="mb-3">
                                         <Form.Label>Mini Imagen</Form.Label>
-                                        <Form.Control required type="file" onChange={onChangeMiniImagen} />
+                                        <Form.Control type="file" onChange={onChangeMiniImagen} />
                                     </Form.Group>
                                     <Button variant="primary" type="submit">
                                         Guardar

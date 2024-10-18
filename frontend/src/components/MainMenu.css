@@ -1,0 +1,48 @@
+.custom-navbar {
+    background-color: #F44C43; /* Color de fondo del Navbar */
+}
+
+.custom-navbar-brand {
+    color: #F44C43; /* Color del texto de la marca */
+    font-weight: bold; /* Negrita para el texto de la marca */
+}
+
+.custom-navbar .form-control,
+.custom-navbar .form-select {
+    background-color: #F44C43; /* Color de fondo de los inputs y selects */
+    color: black; /* Color del texto de los inputs y selects */
+    border: 1px solid #FF6F61; /* Borde del input y select */
+}
+
+.custom-navbar .form-control::placeholder,
+.custom-navbar .form-select {
+    color: black; /* Color del placeholder */
+}
+
+.custom-navbar .form-select option {
+    background-color: #F44C43; /* Color de fondo de las opciones del select */
+    color: black; /* Color del texto de las opciones del select */
+}
+
+.custom-navbar .form-select option:disabled {
+    color: #999; /* Color del texto de las opciones deshabilitadas */
+}
+
+.custom-navbar .btn-primary {
+    background-color: #FF6F61; /* Color de fondo del botón */
+    border-color: #FF6F61; /* Color del borde del botón */
+    color: black; /* Color del texto del botón */
+}
+
+.custom-navbar .btn-primary:hover {
+    background-color: #FF4C4C; /* Color de fondo al pasar el mouse */
+    border-color: #FF4C4C; /* Color del borde al pasar el mouse */
+}
+
+.custom-navbar .navbar-toggler {
+    border-color: white; /* Color del borde del botón de colapso */
+}
+
+.custom-navbar .navbar-toggler-icon {
+    background-color: white; /* Color del icono de colapso */
+}

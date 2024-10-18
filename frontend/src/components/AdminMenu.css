@@ -5,7 +5,7 @@
   
   /* Estilos para los enlaces de navegación (NavLinks y DropdownItems) */
   .nav-link, .dropdown-item {
-    color: #ff0000 !important; /* Letras rojas */
+    color: #F44C43; /* Letras rojas */
   }
   
   /* Cambiar el color del enlace cuando el cursor está encima */
@@ -15,14 +15,15 @@
   
   /* Color del icono de colapsar (hamburguesa) cuando el navbar está colapsado en dispositivos móviles */
   .navbar-toggler-icon {
-    background-color: #ff0000 !important; /* Icono de hamburguesa rojo */
+    background-color: #F44C43 !important; /* Icono de hamburguesa rojo */
   }
   
   /* Estilos adicionales opcionales para la marca */
   .navbar-brand {
-    color: #ff0000 !important; /* Nombre de la marca en rojo */
+    color: #F44C43 !important; /* Nombre de la marca en rojo */
     display: flex;
-    align-items: center; /* Alinear el texto y la imagen verticalmente */
+    align-items: center; 
+    font-weight: bold;/* Alinear el texto y la imagen verticalmente */
   }
   
   /* Estilo para la imagen del logo */
@@ -41,6 +42,6 @@
   /* Color negro para el encabezado del dropdown */
   .dropdown-header {
     background-color: #000000 !important; /* Fondo negro para el header */
-    color: #ff0000 !important; /* Letras rojas para el header */
+    color: #F44C43 !important; /* Letras rojas para el header */
   }
   

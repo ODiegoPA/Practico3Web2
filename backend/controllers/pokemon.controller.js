@@ -175,7 +175,7 @@ exports.updatePokemon = async (req, res) => {
 
 exports.subirFoto = async (req, res) => {
     const id = req.params.id;
-    const image = req.files.photo;
+    const image = req.files ? req.files.photo : null;
     const miniImage = req.files ? req.files.miniPhoto : null;
     try {
         const pokemon = await getPokemonOr404(id, res);
@@ -183,21 +183,29 @@ exports.subirFoto = async (req, res) => {
             return;
         }
         
-        const path = __dirname + '/../public/images/pokemon/' + pokemon.id + '.jpg';	
-        image.mv(path, function (err) {
-            if (err) {
-                console.log('error al subir')
-                return res.status(500).json({ error: 'Error al subir la imagen' });
-            }
-        });
+        
+        if (image){
+            const path = __dirname + '/../public/images/pokemon/' + pokemon.id + '.jpg';	
+            image.mv(path, function (err) {
+                if (err) {
+                    console.log('error al subir')
+                    return res.status(500).json({ error: 'Error al subir la imagen' });
+                }
+            });
+        }
 
-        const pathMini = __dirname + '/../public/images/pokemon/minis/' + pokemon.id + '.jpg';
-        miniImage.mv(pathMini, function (err) {
-            if (err) {
-                console.log('error al subir')
-                return res.status(500).json({ error: 'Error al subir la imagen' });
-            }
-        });
+        if (miniImage){
+            const pathMini = __dirname + '/../public/images/pokemon/minis/' + pokemon.id + '.jpg';
+            miniImage.mv(pathMini, function (err) {
+                if (err) {
+                    console.log('error al subir')
+                    return res.status(500).json({ error: 'Error al subir la imagen' });
+                }
+            });
+            
+        }
+
+        
         
         res.status(200).json({msg: 'Imagen subida correctamente'});
     } catch (error) {
@@ -205,7 +213,7 @@ exports.subirFoto = async (req, res) => {
     }
 }
 
-exports.getListByFilters= async (req, res) => {
+exports.getListByFilters = async (req, res) => {
     const tipo1 = req.params.tipo1;
     const tipo2 = req.params.tipo2;
     const nombre = req.params.nombre; 
@@ -215,21 +223,27 @@ exports.getListByFilters= async (req, res) => {
 
     const whereCondition = {};
 
+    // Si tipo1 es válido, añadir a la condición where
     if (tipo1 && tipo1 !== 'null') {
-        whereCondition.idTipo1 = tipo1;
+        whereCondition[Sequelize.Op.or] = [
+            { idTipo1: tipo1 }, // Pokémon con tipo1 igual a tipo1
+            { idTipo2: tipo1 }  // Pokémon con tipo2 igual a tipo1
+        ];
     }
 
+    // Solo añade tipo2 si se proporciona
     if (tipo2 && tipo2 !== 'null') {
         whereCondition.idTipo2 = tipo2;
     }
 
-    
+    // Filtrado por nombre
     if (nombre !== 'null') {
         whereCondition.nombre = {
             [Sequelize.Op.like]: `${nombre}%` 
         };
     }
 
+    // Filtrado por número de Pokédex
     if (numeroPokedex !== 'null') {
         whereCondition.nroPokedex = numeroPokedex;
     }
@@ -283,6 +297,7 @@ exports.getListByFilters= async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 exports.getLineaEvolutiva = async (req, res) => {
     const id = req.params.id; 

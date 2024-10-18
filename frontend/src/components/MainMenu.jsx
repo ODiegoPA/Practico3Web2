@@ -1,7 +1,10 @@
-import { Container, Navbar, Form, Button, Row, Col } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Container, Navbar, Form, Button, Row, Col, Nav } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import "./MainMenu.css";
+import pokedexLogo from './pokedex.png';
+
 
 const NavMainMenu = () => {
     const [nombre, setNombre] = useState("");
@@ -43,8 +46,8 @@ const NavMainMenu = () => {
     return (
         <Navbar expand="lg" className="custom-navbar">
             <Container className="justify-content-center">
-                <Navbar.Brand href="#" className="custom-navbar-brand">
-                    <img src="https://s3-alpha.figma.com/hub/file/3377497269/40265e54-2373-4069-8dde-7c5bbe0ebfa7-cover.png" alt="Pokédex Logo" className="pokedex-logo" />
+                <Navbar.Brand href="/pokedex" className="custom-navbar-brand">
+                <img src={pokedexLogo} alt="Pokédex Logo" className="pokedex-logo" />
                     Pokedéx
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -54,7 +57,7 @@ const NavMainMenu = () => {
                             <Col>
                                 <Form.Control
                                     type="text"
-                                    placeholder="Nombre o Nº Pokédex"
+                                    placeholder="Nombre o Nº"
                                     value={nombre}
                                     onChange={(e) => setNombre(e.target.value)}
                                 />
@@ -64,7 +67,7 @@ const NavMainMenu = () => {
                                     value={tipo1} 
                                     onChange={(e) => setTipo1(e.target.value)}
                                 >
-                                    <option value="">Selecciona Tipo 1</option>
+                                    <option value="">Tipo 1</option>
                                     {tipos.map((tipo) => (
                                         <option key={tipo.id} value={tipo.id}>{tipo.nombre}</option>
                                     ))}
@@ -74,9 +77,9 @@ const NavMainMenu = () => {
                                 <Form.Select 
                                     value={tipo2} 
                                     onChange={(e) => setTipo2(e.target.value)}
-                                    disabled={!tipo1} // Deshabilitar si no se selecciona tipo1
+                                    disabled={!tipo1} 
                                 >
-                                    <option value="">Selecciona Tipo 2</option>
+                                    <option value="">Tipo 2</option>
                                     {tipos.map((tipo) => (
                                         <option key={tipo.id} value={tipo.id}>{tipo.nombre}</option>
                                     ))}
@@ -86,6 +89,11 @@ const NavMainMenu = () => {
                                 <Button variant="primary" type="submit">
                                     Buscar
                                 </Button>
+                            </Col>
+                            <Col>
+                                <Nav className="ml-auto">
+                                    <Link className="nav-link" to={"/pokemon"}>Modo Admin</Link>
+                                </Nav>
                             </Col>
                         </Row>
                     </Form>

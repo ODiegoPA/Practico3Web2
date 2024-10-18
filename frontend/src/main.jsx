@@ -12,6 +12,7 @@ import ListHabilidades from './pages/habilidades/listhabilidades.jsx'
 import FormHabilidades from './pages/habilidades/formHabilidades.jsx'
 import FormImagenes from './pages/pokemon/formPhoto.jsx'
 import MainPokedex from './pages/main/mainPokedex.jsx'
+import PokemonDetail from './pages/main/pokemonDetail.jsx'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
   {
     path: '/pokedex',
     element: <MainPokedex />,
+  },
+  {
+    path: '/pokedex/:id',
+    element: <PokemonDetail/>
   }
 ])
 createRoot(document.getElementById('root')).render(

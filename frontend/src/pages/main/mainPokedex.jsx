@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
-import { Card, Container, Row, Col } from "react-bootstrap";
+import { useLocation, Link } from "react-router-dom"; // Importa Link
+import { Container, Row, Col, Image } from "react-bootstrap";
 import NavMainMenu from "../../components/MainMenu";
+import "./MainPokedex.css"; // Importa el archivo CSS
 
 const MainPokedex = () => {
     const [pokemons, setPokemons] = useState([]);
@@ -10,7 +11,7 @@ const MainPokedex = () => {
 
     useEffect(() => {
         loadPokemons();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location]);
 
     const loadPokemons = async () => {
@@ -29,36 +30,50 @@ const MainPokedex = () => {
 
     return (
         <>
-            <NavMainMenu/>
-        <Container>
-            <Row>
+            <NavMainMenu />
+            <Container className="pokedex-container">
                 {pokemons.map((pokemon) => (
-                    <Col md={4} key={pokemon.id} className="mb-4">
-                        <Card>
-                            <Card.Img 
-                                variant="top" 
-                                src={`http://localhost:3000/images/pokemon/${pokemon.id}.jpg`} 
-                                alt={pokemon.nombre} 
-                            />
-                            <Card.Body>
-                                <Card.Title>{pokemon.nombre}</Card.Title>
-                                <Card.Text>
-                                    Número de Pokédex: {pokemon.nroPokedex}
-                                </Card.Text>
-                                <Card.Text>
-                                    Tipo 1: {pokemon.tipo1 ? pokemon.tipo1.nombre : "Desconocido"}
-                                </Card.Text>
-                                <Card.Text>
-                                    {pokemon.tipo2 && (
-                                        <span>Tipo 2: {pokemon.tipo2.nombre}</span>
-                                    )}
-                                </Card.Text>
-                            </Card.Body>
-                        </Card>
-                    </Col>
+                    <Link
+                        key={pokemon.id}
+                        to={`/pokedex/${pokemon.id}`}
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                    >
+                        <Row
+                            className="pokemon-row align-items-center mb-3"
+                        >
+                            <Col xs={2}>
+                                <Image
+                                    src={`http://localhost:3000/images/pokemon/minis/${pokemon.id}.jpg`} 
+                                    roundedCircle
+                                    fluid
+                                />
+                            </Col>
+                            <Col xs={3}>
+                                <span className="pokemon-number">N.º {pokemon.nroPokedex.toString().padStart(3, "0")}</span>
+                            </Col>
+                            <Col xs={3}>
+                                <span className="pokemon-name">{pokemon.nombre}</span>
+                            </Col>
+                            <Col xs={2}>
+                                <Image 
+                                    src={`http://localhost:3000/images/tipos/${pokemon.idTipo1}.jpg`} 
+                                    rounded 
+                                    fluid 
+                                />
+                            </Col>
+                            {pokemon.idTipo2 && (
+                                <Col xs={2}>
+                                    <Image 
+                                        src={`http://localhost:3000/images/tipos/${pokemon.idTipo2}.jpg`} 
+                                        rounded 
+                                        fluid 
+                                    />
+                                </Col>
+                            )}
+                        </Row>
+                    </Link>
                 ))}
-            </Row>
-        </Container>
+            </Container>
         </>
     );
 };

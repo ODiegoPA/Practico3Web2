@@ -1,0 +1,75 @@
+.pokedex-detail-container {
+    background-color: #F44C43; /* Rojo claro */
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+.containerLinea {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+.evolution-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+.evolution-line img {
+    width: 150px; /* Aumentar tamaño de imagen en la línea evolutiva */
+    height: 150px;
+    margin-right: 10px;
+}
+.pokeInfo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+.imageDiv{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+.evolution-arrow {
+    font-size: 24px;
+    margin: 0 10px;
+}
+
+/* Estilo para la imagen principal */
+.pokemon-main-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px; /* Aumentar tamaño de la imagen principal */
+    height: auto;
+}
+
+/* Centrar el texto */
+.pokemon-name {
+    text-align: center;
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+/* Estilos para el enlace del nombre del Pokémon */
+.pokemon-name a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.pokemon-name a:hover {
+    text-decoration: underline;
+}
