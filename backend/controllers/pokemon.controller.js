@@ -130,8 +130,18 @@ exports.createPokemon = async (req, res) => {
         };
 
         const pokemonCreado = await db.pokemon.create(pokemon);
-        
-        
+        const evPrevia = await db.pokemon.findByPk(pokemonCreado.idEvPrevia);
+        const evSiguiente = await db.pokemon.findByPk(pokemonCreado.idEvSiguiente);
+
+        if (evPrevia) {
+            evPrevia.idEvSiguiente = pokemonCreado.id;
+            await evPrevia.save();
+        }
+        if (evSiguiente) {
+            evSiguiente.idEvPrevia = pokemonCreado.id;
+            await evSiguiente.save();
+        }
+    
         res.status(201).json(pokemonCreado);
     } catch (error) {
         res.status(500).json({ error: error.message })
@@ -146,8 +156,6 @@ exports.updatePokemon = async (req, res) => {
         if (!pokemon) {
             return;
         }
-        
-        // Actualización de campos
         pokemon.nombre = req.body.nombre;
         pokemon.nroPokedex = req.body.nroPokedex;
         pokemon.descripcion = req.body.descripcion;
