@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom"; // Asegúrate de importar useParams
-import { Container, Row, Col, Image, Table } from "react-bootstrap"; // Importa componentes de Bootstrap
-import './PokemonDetail.css'; // Importa tu CSS si es necesario
+import { Link, useParams } from "react-router-dom"; 
+import { Container, Row, Col, Image, Table } from "react-bootstrap"; 
+import './PokemonDetail.css';
 import NavMainMenu from "../../components/MainMenu";
 
 const calcularMaxStat = (stat) => {
@@ -49,9 +49,8 @@ const PokemonDetail = () => {
             });
     };
 
-    if (!pokemon) return <div>Cargando...</div>; // Manejo de carga
+    if (!pokemon) return <div>Cargando...</div>;
 
-    // Calcular estadísticas a nivel 100
     const statsNormal = {
         hp: pokemon.hp,
         ataque: pokemon.ataque,
@@ -99,9 +98,9 @@ const PokemonDetail = () => {
                     <p>{pokemon.descripcion}</p>
                     <h5>Habilidades:</h5>
                     <ul>
-                        <li>{pokemon.habilidad1.nombre}</li>
-                        {pokemon.habilidad2 && <li>{pokemon.habilidad2.nombre}</li>}
-                        <li>{pokemon.habilidadOculta.nombre} (Oculta)</li>
+                        <li><b>{pokemon.habilidad1.nombre}:</b> {pokemon.habilidad1.descripcion}</li>
+                        {pokemon.habilidad2 && <li><b>{pokemon.habilidad2.nombre}:</b> {pokemon.habilidad2.descripcion}</li>}
+                        {pokemon.habilidadOculta && <li><b>{pokemon.habilidadOculta.nombre} (Oculta):</b> {pokemon.habilidadOculta.descripcion}</li>}
                     </ul>
                     <h5>Tipos:</h5>
                     <div className="tipos">
@@ -125,8 +124,8 @@ const PokemonDetail = () => {
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th>Estadística</th>
-                        <th>Valor Normal</th>
+                        <th>Estadísticas</th>
+                        <th>Valor Base</th>
                         <th>Valor a Nivel 100 (EVs 0/IVs 0)</th>
                         <th>Valor a Nivel 100 (EVs 252/IVs 31)</th>
                     </tr>

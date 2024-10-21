@@ -107,7 +107,8 @@ const ListPokemon = () => {
                                                     {pokemon.idEvSiguiente ? (
                                                         <>
                                                             <img src={`http://localhost:3000/pokemon/${pokemon.idEvSiguiente}/imagen`} alt={pokemon.nombre} width="50" />
-                                                            {pokemon.evolucionSiguiente?.nombre || "Sin evolución siguiente"}
+                                                            {pokemon.evolucionSiguiente?.nombre} <br></br>
+                                                            <b>Nivel:</b> {pokemon.nivelEvolucion}
                                                         </>
                                                     ) : ("No tiene evolución siguiente")}
                                                 </td>

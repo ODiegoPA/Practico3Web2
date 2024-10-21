@@ -113,15 +113,13 @@ const FormPokemon = () => {
 
         const dataToSend = {};
         for (const [key, value] of formData.entries()) {
-    // Convertir valores específicos a null si son 'null' o vacíos, y a número si son enteros
-        if (key === 'idHabilidad2' || key === 'idEvPrevia' || key === 'idEvSiguiente' || 
-            key === 'idTipo2' || key === 'nivelEvolucion') {
-
-            dataToSend[key] = (value === 'null' || value === '') ? null : parseInt(value, 10);
-        } else {
-        dataToSend[key] = value; // Mantener como string si no es un número
-    }
-}
+            if (key === 'idHabilidad2' || key === 'idEvPrevia' || key === 'idEvSiguiente' ||
+                key === 'idTipo2' || key === 'nivelEvolucion' || key === 'idHabilidadOculta') {
+                dataToSend[key] = (value === 'null' || value === '') ? null : parseInt(value, 10);
+            } else {
+                dataToSend[key] = value;
+            }
+        }
 
         if (id) {
             axios.put(`http://localhost:3000/pokemon/${id}`, dataToSend)
@@ -153,6 +151,7 @@ const FormPokemon = () => {
                         <Form.Group>
                             <Form.Label>Nombre</Form.Label>
                             <Form.Control
+                                required
                                 type="text"
                                 value={nombre}
                                 onChange={(e) => setNombre(e.target.value)}
@@ -162,6 +161,7 @@ const FormPokemon = () => {
                         <Form.Group>
                             <Form.Label>Nro Pokedex</Form.Label>
                             <Form.Control
+                                required
                                 type="text"
                                 value={nroPokedex}
                                 onChange={(e) => setNroPokedex(e.target.value)}
@@ -171,6 +171,7 @@ const FormPokemon = () => {
                         <Form.Group>
                             <Form.Label>Descripción</Form.Label>
                             <Form.Control
+                                required
                                 as="textarea"
                                 rows={3}
                                 value={descripcion}
@@ -181,6 +182,7 @@ const FormPokemon = () => {
                         <Form.Group>
                             <Form.Label>HP</Form.Label>
                             <Form.Control
+                                required
                                 type="number"
                                 value={hp}
                                 onChange={(e) => setHp(e.target.value)}
@@ -190,6 +192,7 @@ const FormPokemon = () => {
                         <Form.Group>
                             <Form.Label>Ataque</Form.Label>
                             <Form.Control
+                                required
                                 type="number"
                                 value={ataque}
                                 onChange={(e) => setAtaque(e.target.value)}
@@ -199,6 +202,7 @@ const FormPokemon = () => {
                         <Form.Group>
                             <Form.Label>Defensa</Form.Label>
                             <Form.Control
+                                required
                                 type="number"
                                 value={defensa}
                                 onChange={(e) => setDefensa(e.target.value)}
@@ -208,6 +212,7 @@ const FormPokemon = () => {
                         <Form.Group>
                             <Form.Label>Ataque Especial</Form.Label>
                             <Form.Control
+                                required
                                 type="number"
                                 value={ataqueEspecial}
                                 onChange={(e) => setAtaqueEspecial(e.target.value)}
@@ -217,6 +222,7 @@ const FormPokemon = () => {
                         <Form.Group>
                             <Form.Label>Defensa Especial</Form.Label>
                             <Form.Control
+                                required
                                 type="number"
                                 value={defensaEspecial}
                                 onChange={(e) => setDefensaEspecial(e.target.value)}
@@ -226,6 +232,7 @@ const FormPokemon = () => {
                         <Form.Group>
                             <Form.Label>Velocidad</Form.Label>
                             <Form.Control
+                                required
                                 type="number"
                                 value={velocidad}
                                 onChange={(e) => setVelocidad(e.target.value)}
@@ -244,6 +251,7 @@ const FormPokemon = () => {
                         <Form.Group>
                             <Form.Label>Tipo 1</Form.Label>
                             <Form.Control
+                                required
                                 as="select"
                                 value={idTipo1}
                                 onChange={(e) => setIdTipo1(e.target.value)}
@@ -272,6 +280,7 @@ const FormPokemon = () => {
                         <Form.Group>
                             <Form.Label>Habilidad 1</Form.Label>
                             <Form.Control
+                                required
                                 as="select"
                                 value={idHabilidad1}
                                 onChange={(e) => setIdHabilidad1(e.target.value)}
@@ -298,7 +307,7 @@ const FormPokemon = () => {
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label>Habilidad Oculta</Form.Label>
+                            <Form.Label>Habilidad Oculta (opcional)</Form.Label>
                             <Form.Control
                                 as="select"
                                 value={idHabilidadOculta}

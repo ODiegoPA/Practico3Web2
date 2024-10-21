@@ -157,14 +157,14 @@ exports.updatePokemon = async (req, res) => {
         pokemon.velocidad = req.body.velocidad;
         pokemon.ataqueEspecial = req.body.ataqueEspecial;
         pokemon.defensaEspecial = req.body.defensaEspecial;
-        pokemon.nivelEvolucion = req.body.nivelEvolucion !== '' ? req.body.nivelEvolucion : null; // Manejar null
-        pokemon.idHabilidad1 = req.body.idHabilidad1 !== '' ? req.body.idHabilidad1 : null; // Manejar null
-        pokemon.idHabilidad2 = req.body.idHabilidad2 !== '' ? req.body.idHabilidad2 : null; // Manejar null
-        pokemon.idHabilidadOculta = req.body.idHabilidadOculta;
+        pokemon.nivelEvolucion = req.body.nivelEvolucion !== '' ? req.body.nivelEvolucion : null;
+        pokemon.idHabilidad1 = req.body.idHabilidad1 !== '' ? req.body.idHabilidad1 : null;
+        pokemon.idHabilidad2 = req.body.idHabilidad2 !== '' ? req.body.idHabilidad2 : null;
+        pokemon.idHabilidadOculta = req.body.idHabilidadOculta !== '' ? req.body.idHabilidadOculta : null;
         pokemon.idTipo1 = req.body.idTipo1;
-        pokemon.idTipo2 = req.body.idTipo2 !== '' ? req.body.idTipo2 : null; // Manejar null
-        pokemon.idEvPrevia = req.body.idEvPrevia !== '' ? req.body.idEvPrevia : null; // Manejar null
-        pokemon.idEvSiguiente = req.body.idEvSiguiente !== '' ? req.body.idEvSiguiente : null; // Manejar null
+        pokemon.idTipo2 = req.body.idTipo2 !== '' ? req.body.idTipo2 : null;
+        pokemon.idEvPrevia = req.body.idEvPrevia !== '' ? req.body.idEvPrevia : null;
+        pokemon.idEvSiguiente = req.body.idEvSiguiente !== '' ? req.body.idEvSiguiente : null;
 
         await pokemon.save();
         res.status(200).json(pokemon);
@@ -216,39 +216,35 @@ exports.subirFoto = async (req, res) => {
 exports.getListByFilters = async (req, res) => {
     const tipo1 = req.params.tipo1;
     const tipo2 = req.params.tipo2;
-    const nombre = req.params.nombre; 
-    const numeroPokedex = req.params.nro; 
+    const nombre = req.params.nombre;
+    const numeroPokedex = req.params.nro;
 
     console.log(tipo1, tipo2, nombre, numeroPokedex);
 
     const whereCondition = {};
 
-    // Si tipo1 es válido, añadir a la condición where
     if (tipo1 && tipo1 !== 'null') {
         whereCondition[Sequelize.Op.or] = [
-            { idTipo1: tipo1 }, // Pokémon con tipo1 igual a tipo1
-            { idTipo2: tipo1 }  // Pokémon con tipo2 igual a tipo1
+            { idTipo1: tipo1 },
+            { idTipo2: tipo1 }  
         ];
     }
 
-    // Solo añade tipo2 si se proporciona
     if (tipo2 && tipo2 !== 'null') {
         whereCondition.idTipo2 = tipo2;
     }
 
-    // Filtrado por nombre
     if (nombre !== 'null') {
         whereCondition.nombre = {
             [Sequelize.Op.like]: `${nombre}%` 
         };
     }
 
-    // Filtrado por número de Pokédex
     if (numeroPokedex !== 'null') {
         whereCondition.nroPokedex = numeroPokedex;
     }
 
-    console.log(whereCondition);
+
     try {
         const pokemon = await db.pokemon.findAll({
             where: whereCondition,
@@ -300,32 +296,30 @@ exports.getListByFilters = async (req, res) => {
 
 
 exports.getLineaEvolutiva = async (req, res) => {
-    const id = req.params.id; 
+    const id = req.params.id;
     try {
-        
         const pokemon = await getPokemonOr404(id, res);
         if (!pokemon) {
-            return; 
+            return;
         }
 
         const respuesta = [];
         respuesta.push(pokemon);
 
-        let actual = pokemon; 
+        let actual = pokemon;
 
         while (actual.idEvSiguiente != null) {
             actual = await db.pokemon.findByPk(actual.idEvSiguiente);
-            respuesta.push(actual); 
+            respuesta.push(actual);
         }
 
-        actual = pokemon; 
+        actual = pokemon;
 
         while (actual.idEvPrevia != null) {
             actual = await db.pokemon.findByPk(actual.idEvPrevia);
-            respuesta.unshift(actual); 
+            respuesta.unshift(actual);
         }
 
-        
         return res.status(200).json(respuesta);
     } catch (error) {
         res.status(500).json({ error: error.message });

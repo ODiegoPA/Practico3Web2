@@ -26,12 +26,11 @@ const NavAdminMenu = () => {
                     <Link className="dropdown-item" to={"/tipos"}>Lista de Tipos</Link>
                     <Link className="dropdown-item" to={"/tipos/formulario"}>Crear Tipo</Link>
                 </NavDropdown>
-                <Nav className="ml-auto"> 
+                <Nav className="ml-auto">
                         <Link className="nav-link" to={"/pokedex"}>Modo Entrenador</Link>
                 </Nav>
             </Nav>
         </Navbar.Collapse>
-        
         </Container>
     </Navbar>
     );

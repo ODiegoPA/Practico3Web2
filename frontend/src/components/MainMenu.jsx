@@ -30,15 +30,15 @@ const NavMainMenu = () => {
         e.preventDefault();
 
         const nombreFilter = isNaN(nombre) || nombre === "" ? nombre : null;
-        const nroPokedexFilter = isNaN(nombre) ? null : nombre; 
+        const nroPokedexFilter = isNaN(nombre) ? null : nombre;
         const tipo1Filter = tipo1 || null;
         const tipo2Filter = tipo2 || null;
 
         let url = `http://localhost:3000/pokemon`;
-        url += `/tipo1/${tipo1Filter || "null"}`; 
-        url += `/tipo2/${tipo2Filter || "null"}`; 
-        url += `/nombre/${nombreFilter || "null"}`; 
-        url += `/nro/${nroPokedexFilter || "null"}`; 
+        url += `/tipo1/${tipo1Filter || "null"}`;
+        url += `/tipo2/${tipo2Filter || "null"}`;
+        url += `/nombre/${nombreFilter || "null"}`;
+        url += `/nro/${nroPokedexFilter || "null"}`;
 
         navigate("/pokedex", { state: { url } });
     };
@@ -63,8 +63,8 @@ const NavMainMenu = () => {
                                 />
                             </Col>
                             <Col>
-                                <Form.Select 
-                                    value={tipo1} 
+                                <Form.Select
+                                    value={tipo1}
                                     onChange={(e) => setTipo1(e.target.value)}
                                 >
                                     <option value="">Tipo 1</option>
@@ -74,10 +74,10 @@ const NavMainMenu = () => {
                                 </Form.Select>
                             </Col>
                             <Col>
-                                <Form.Select 
-                                    value={tipo2} 
+                                <Form.Select
+                                    value={tipo2}
                                     onChange={(e) => setTipo2(e.target.value)}
-                                    disabled={!tipo1} 
+                                    disabled={!tipo1}
                                 >
                                     <option value="">Tipo 2</option>
                                     {tipos.map((tipo) => (

@@ -27,9 +27,7 @@ exports.getTiposById = async (req, res) => {
     }
 }
 exports.createTipo = async (req, res) => {
-    
     console.log('req.files:', req.files);
-    
     const image = req.files.photo;
     console.log('Image:', image);
 

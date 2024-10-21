@@ -43,7 +43,7 @@ const MainPokedex = () => {
                         >
                             <Col xs={2}>
                                 <Image
-                                    src={`http://localhost:3000/images/pokemon/minis/${pokemon.id}.jpg`} 
+                                    src={`http://localhost:3000/images/pokemon/minis/${pokemon.id}.jpg`}
                                     roundedCircle
                                     fluid
                                 />
@@ -55,10 +55,10 @@ const MainPokedex = () => {
                                 <span className="pokemon-name">{pokemon.nombre}</span>
                             </Col>
                             <Col xs={2}>
-                                <Image 
-                                    src={`http://localhost:3000/images/tipos/${pokemon.idTipo1}.jpg`} 
-                                    rounded 
-                                    fluid 
+                                <Image
+                                    src={`http://localhost:3000/images/tipos/${pokemon.idTipo1}.jpg`}
+                                    rounded
+                                    fluid
                                 />
                             </Col>
                             {pokemon.idTipo2 && (
